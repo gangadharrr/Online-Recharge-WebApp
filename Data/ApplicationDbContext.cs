@@ -12,5 +12,6 @@ namespace Online_Recharge_WebApp.Data
         }
 
         public DbSet<RechargeProductModel> RechargeProduct { get; set; }
+        public DbSet<CustomerSupport> CustomerSupport { get; set; }
     }
 }

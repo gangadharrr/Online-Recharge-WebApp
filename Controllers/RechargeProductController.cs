@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -18,15 +19,28 @@ namespace Online_Recharge_WebApp.Controllers
         {
             _context = context;
         }
-
+        public async Task<IActionResult> IndexGeneral()
+        {
+            return _context.RechargeProduct != null ?
+                        View(await _context.RechargeProduct.OrderBy(x => x.Plan).ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.RechargeProduct'  is null.");
+        }
+        [Authorize(Roles = "Customer")]
+        public async Task<IActionResult> IndexCustomer()
+        {
+            return _context.RechargeProduct != null ?
+                        View(await _context.RechargeProduct.OrderBy(x => x.Plan).ToListAsync()) :
+                        Problem("Entity set 'ApplicationDbContext.RechargeProduct'  is null.");
+        }
+        [Authorize(Roles ="Admin")]
         // GET: RechargeProduct
         public async Task<IActionResult> Index()
         {
               return _context.RechargeProduct != null ? 
-                          View(await _context.RechargeProduct.ToListAsync()) :
+                          View(await _context.RechargeProduct.OrderBy(x=>x.Plan).ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.RechargeProduct'  is null.");
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: RechargeProduct/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -44,7 +58,7 @@ namespace Online_Recharge_WebApp.Controllers
 
             return View(rechargeProductModel);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: RechargeProduct/Create
         public IActionResult Create()
         {
@@ -54,6 +68,7 @@ namespace Online_Recharge_WebApp.Controllers
         // POST: RechargeProduct/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Plan,Validity,Data")] RechargeProductModel rechargeProductModel)
@@ -66,7 +81,7 @@ namespace Online_Recharge_WebApp.Controllers
             }
             return View(rechargeProductModel);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: RechargeProduct/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -86,6 +101,7 @@ namespace Online_Recharge_WebApp.Controllers
         // POST: RechargeProduct/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Plan,Validity,Data")] RechargeProductModel rechargeProductModel)
@@ -119,6 +135,7 @@ namespace Online_Recharge_WebApp.Controllers
         }
 
         // GET: RechargeProduct/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.RechargeProduct == null)
@@ -135,7 +152,7 @@ namespace Online_Recharge_WebApp.Controllers
 
             return View(rechargeProductModel);
         }
-
+        [Authorize(Roles = "Admin")]
         // POST: RechargeProduct/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

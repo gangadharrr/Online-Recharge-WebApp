@@ -1,5 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Runtime.InteropServices;
 
 namespace Online_Recharge_WebApp.Models
@@ -10,8 +12,10 @@ namespace Online_Recharge_WebApp.Models
         [Key]
         [Required]  
         public int Id { get; set; }
+        //  [ForeignKey("IdentityUserEmail")]
         [Required]
         public string EmailId { get; set; }
+       // public IdentityUser User { get; set; }
         [Required]
         public string EntryType { get; set; }
         [Required]
@@ -19,7 +23,7 @@ namespace Online_Recharge_WebApp.Models
         [Required]
         public string ComplaintMessage { get; set; }
         [Required]
-        public bool Completed = false;
+        public Boolean Completed { get; set; }
 
 
     }

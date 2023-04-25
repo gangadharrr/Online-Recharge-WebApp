@@ -1,0 +1,86 @@
+﻿@model IEnumerable<Online_Recharge_WebApp.Models.CustomerSupport>
+
+@{
+    ViewData["Title"] = "Registered Complaints";
+}
+
+<h1>Registered Complaints</h1>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Email Id				
+            </th>
+            <th>
+                Subject
+            </th>
+            <th>
+                Time of Complaint
+            </th>
+            <th>
+                Description
+            </th>
+            <th>
+                Status
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EmailId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EntryType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ComplaintMessage)
+            </td>
+            @if(item.Completed)
+            {
+                    <td><a href="/CustomerSupport/Approve/@item.Id" id="ApprovePending" class="btn btn-outline-success">Solved</a></td>
+                    
+            }
+            else
+            {
+                    <td><a href="/CustomerSupport/Approve/@item.Id" id="ApproveSuccess"  class="btn btn-outline-danger">Pending</a></td>
+            }
+        </tr>
+}
+    </tbody>
+</table>
+<script>
+    if (document.getElementById("ApproveSuccess"))
+    {
+        document.getElementById("ApproveSuccess").onmouseover = function MyWarn() {
+            var bttn=document.getElementById("ApproveSuccess")
+            bttn.classList="btn btn-success";
+            bttn.innerHTML="Approve";
+        }
+        document.getElementById("ApproveSuccess").onmouseleave = function MyWarn() {
+            var bttn=document.getElementById("ApproveSuccess")
+            bttn.classList="btn btn-outline-danger";
+            bttn.innerHTML="Pending";
+        }
+    }
+    if (document.getElementById("ApprovePending"))
+    {
+        document.getElementById("ApprovePending").onmouseover = function MyWarn() {
+            console.log("Approve pending");
+            var bttn = document.getElementById("ApprovePending")
+            bttn.classList = "btn btn-danger";
+            bttn.innerHTML="UnApprove";
+        }
+        document.getElementById("ApprovePending").onmouseleave = function MyWarn() {
+            var bttn = document.getElementById("ApprovePending")
+            bttn.classList="btn btn-outline-success";
+            bttn.innerHTML="Solved";
+        }
+    }
+</script>

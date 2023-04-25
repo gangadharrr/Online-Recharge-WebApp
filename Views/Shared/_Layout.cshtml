@@ -26,9 +26,29 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="RechargeProduct" asp-action="Index">Plans</a>
-                        </li>
+                  
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="RechargeProduct" asp-action="Index">Plans</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="CustomerSupport" asp-action="DisplayComplaints">Complaints</a>
+                            </li>
+
+                        }
+                        else if (User.IsInRole("Customer"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="RechargeProduct" asp-action="IndexCustomer">Plans</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="RechargeProduct" asp-action="IndexGeneral">Plans</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
@@ -44,7 +64,12 @@
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - Online_Recharge_WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-            <a asp-area="" asp-controller="CustomerSupport" asp-action="Index">Contact Us</a>
+            
+            @if (User.IsInRole("Customer"))
+            {
+                <a asp-area="" asp-controller="CustomerSupport" asp-action="Index">Contact Us</a>
+
+            }
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

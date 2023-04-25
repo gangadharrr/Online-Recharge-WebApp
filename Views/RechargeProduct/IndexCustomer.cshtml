@@ -1,0 +1,116 @@
+﻿@model IEnumerable<Online_Recharge_WebApp.Models.RechargeProductModel>
+
+@{
+    ViewData["Title"] = "Recharge plans";
+}
+
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* Float four columns side by side */
+    .column {
+        float: left;
+        width: 25%;
+        padding: 0 10px;
+    }
+
+    /* Remove extra left and right margins, due to padding */
+    .row {
+        margin: 0 -5px;
+    }
+
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+    /* Responsive columns */
+    @@media screen and (max-width: 600px) {
+        .column {
+            width: 100%;
+            display: block;
+            margin-bottom: 20px;
+        }
+    }
+
+    /* Style the counter cards */
+    .card {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+        padding: 16px;
+        text-align: left;
+        background-color: #f1f1f1;
+    }
+
+    table {
+        table-layout: fixed;
+        width: 1000px;
+    }
+
+    .tad1 {
+        width: 150px;
+    }
+
+    .tad2 {
+        width: 150px;
+    }
+
+    .tad3 {
+        width: 150px;
+    }
+</style>
+
+<table style="table-layout: fixed;width: 1100px;">
+    <tr>
+        <td>
+            <h1>Recharge plans</h1>
+        </td>
+    </tr>
+</table>
+<hr />
+
+
+
+
+
+@foreach (var item in Model)
+{
+    <div class="row">
+        <div class="card">
+            <table style="">
+
+                <tr>
+                    <td class="tad1">
+                        <h6>Plan</h6>
+                        <h4>₹@item.Plan</h4>
+
+                    </td>
+                    <td class="tad2">
+                        <h6>Validity</h6>
+                        <h4>@item.Validity Days</h4>
+                    </td>
+                    <td class="tad3">
+                        <h6>Data</h6>
+                        <h4>@item.Data GB/day</h4>
+                    </td>
+                    <td class="tad3">
+                        <a target="_blank" class="btn btn-primary">Recharge</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <br />
+}
+
+
+

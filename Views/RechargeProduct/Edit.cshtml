@@ -1,44 +1,84 @@
-﻿@model Online_Recharge_WebApp.Models.RechargeProductModel
+﻿@model IEnumerable<Online_Recharge_WebApp.Models.RechargeProductModel>
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Edit</h1>
+<h1>Index</h1>
 
-<h4>RechargeProductModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Plan" class="control-label"></label>
-                <input asp-for="Plan" class="form-control" />
-                <span asp-validation-for="Plan" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Validity" class="control-label"></label>
-                <input asp-for="Validity" class="form-control" />
-                <span asp-validation-for="Validity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Data" class="control-label"></label>
-                <input asp-for="Data" class="form-control" />
-                <span asp-validation-for="Data" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Plan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Validity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Data)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            if (item.Id == ViewBag.Id)
+            {
+                <form method="post">
+                <tr>
+                    <td>
+                        <input name="Plan" class="form-control-sm" value="@item.Plan" placeholder="Plan" />
+                    </td>
+                    <td>
+                        <input name="Validity" class="form-control-sm" value="@item.Validity" placeholder="Validity" />
+                    </td>
+                    <td>
+                        <input name="Data" class="form-control-sm" value="@item.Data" placeholder="Data" /> 
+                    </td>
+                    <td>
+                        <button class="btn btn-outline-primary" type="submit">Apply</button>
+                        <a class="btn btn-outline-danger" asp-action="Index">Cancel</a>
+                    </td>
+                </tr>
+                </form>
+            }
+            else
+            {
+                <tr>
+                    <td>
+                    @Html.DisplayFor(modelItem => item.Plan)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Validity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data)
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a class="btn btn-outline-success" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <button class="btn btn-outline-danger" onclick='myDelete("/CustomerSupport/Delete/@item.Id","@item.Id")'>delete</button>
+                </td>
+            </tr>
+            }
+        }
+    </tbody>
+</table>
+<script>
+    function myDelete(link, id) {
+        let text = "Are you sure you want to delete book " + id + " ?";
+        let _link = link;
+        if (confirm(text) == true) {
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
+            window.open(link, '_self');
+        }
+    }
+</script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

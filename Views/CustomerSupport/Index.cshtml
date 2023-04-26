@@ -64,7 +64,7 @@
                     <td>
                         <a class="btn btn-outline-primary" asp-action="Edit" asp-route-id="@item.Id">Edit</a><br />
                         <a class="btn btn-outline-success" asp-action="Details" asp-route-id="@item.Id">Details</a><br />
-                        <button class="btn btn-outline-danger" onclick='myDelete("/CustomerSupport/Delete/@item.Id","@item.Id")'>delete</button>
+                        <button class="btn btn-outline-danger" onclick='myDelete("/CustomerSupport/Delete/@item.Id","@item.EntryType")'>delete</button>
                     </td>
             }
 
@@ -75,7 +75,7 @@
 </table>
 <script>
     function myDelete(link, id) {
-        let text = "Are you sure you want to delete book " + id + " ?";
+        let text = "Are you sure you want to delete Complaint " + id + " ?";
         let _link = link;
         if (confirm(text) == true) {
 

@@ -95,7 +95,10 @@ namespace Online_Recharge_WebApp.Controllers
             {
                 return NotFound();
             }
-            return View(rechargeProductModel);
+            ViewBag.Id = id;
+            return _context.RechargeProduct != null ?
+                          View(await _context.RechargeProduct.OrderBy(x => x.Plan).ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.RechargeProduct'  is null."); 
         }
 
         // POST: RechargeProduct/Edit/5
@@ -134,29 +137,9 @@ namespace Online_Recharge_WebApp.Controllers
             return View(rechargeProductModel);
         }
 
-        // GET: RechargeProduct/Delete/5
+      
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.RechargeProduct == null)
-            {
-                return NotFound();
-            }
-
-            var rechargeProductModel = await _context.RechargeProduct
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (rechargeProductModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(rechargeProductModel);
-        }
-        [Authorize(Roles = "Admin")]
-        // POST: RechargeProduct/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             if (_context.RechargeProduct == null)
             {
